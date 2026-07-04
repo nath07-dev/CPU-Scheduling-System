@@ -1,0 +1,1376 @@
+/* ============================================================
+   CPU Scheduler — "Royal Court" Art-Deco Game UI theme
+   Palette + type tokens are pulled directly from the reference
+   UI kit: deep navy stage, gold-leaf borders, candy-colored
+   medal icons, chunky rounded display type.
+   ============================================================ */
+
+:root {
+  /* -- stage -- */
+  --navy-0: #0a1230;
+  --navy-1: #0e1a44;
+  --navy-2: #1b2f6e;
+  --navy-3: #26418f;
+
+  /* -- gold leaf -- */
+  --gold-hi: #fff3cf;
+  --gold-1: #ffd873;
+  --gold-2: #f2b93f;
+  --gold-3: #c9862a;
+  --gold-4: #7c4f16;
+
+  --ink: #182463; /* dark text sitting on gold */
+  --text: #eef2ff; /* light text sitting on navy */
+  --muted: #8fa0d6;
+
+  --green-1: #9df0b7;
+  --green-2: #2f9e5c;
+  --blue-1: #9fdcff;
+  --blue-2: #2f86c9;
+  --coral-1: #ffb08a;
+  --coral-2: #d95b2e;
+  --purple-1: #d3b8ff;
+  --purple-2: #7a4fd6;
+  --pink-1: #ffc7e4;
+  --pink-2: #d94f95;
+
+  --radius-lg: 26px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+
+  --font-display: 'Baloo 2', 'Trebuchet MS', sans-serif;
+  --font-body: 'Quicksand', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--text);
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.05), transparent 40%),
+    repeating-radial-gradient(
+      circle at 50% 0%,
+      rgba(255, 255, 255, 0.025) 0 2px,
+      transparent 2px 64px
+    ),
+    linear-gradient(160deg, var(--navy-3) 0%, var(--navy-1) 45%, var(--navy-0) 100%);
+  background-attachment: fixed;
+}
+
+body {
+  padding: 26px 5vw 130px;
+  padding-left: calc(5vw + 88px);
+}
+
+/* scrollbars styled to match the gilded theme */
+::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--gold-1), var(--gold-3));
+  border-radius: 10px;
+}
+
+/* ============================================================
+   HEADER — crown emblem + scalloped ribbon banner + clock medal
+   ============================================================ */
+.crown {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+.crown-emblem svg {
+  width: 46px;
+  height: 32px;
+  fill: url(#none);
+}
+.crown-emblem svg path,
+.crown-emblem svg circle {
+  fill: var(--gold-2);
+  stroke: var(--gold-4);
+  stroke-width: 1.2;
+}
+.crown-emblem {
+  flex-shrink: 0;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.4));
+}
+
+.banner {
+  position: relative;
+  flex: 1 1 380px;
+  min-width: 280px;
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.banner-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.banner-svg path {
+  fill: var(--gold-2);
+  stroke: var(--gold-4);
+  stroke-width: 3;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+}
+.banner-text {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  line-height: 1.05;
+}
+.banner-text h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(22px, 3vw, 32px);
+  color: var(--ink);
+  text-shadow:
+    0 1px 0 var(--gold-hi),
+    0 -1px 0 var(--gold-4);
+  letter-spacing: 0.01em;
+}
+.banner-text p {
+  margin: 2px 0 0;
+  font-weight: 700;
+  font-size: 11.5px;
+  color: #5b3c12;
+  opacity: 0.85;
+}
+
+.clock-medal {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--gold-hi);
+  background: linear-gradient(160deg, var(--navy-2), var(--navy-1));
+  border: 2px solid var(--gold-3);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 999px;
+  padding: 9px 18px;
+}
+
+/* ============================================================
+   LAYOUT GRID
+   ============================================================ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+}
+.p-monitor {
+  grid-column: span 12;
+}
+.p-gantt {
+  grid-column: span 12;
+}
+.p-log {
+  grid-column: span 5;
+}
+.p-results {
+  grid-column: span 7;
+}
+
+@media (max-width: 900px) {
+  .p-monitor,
+  .p-gantt,
+  .p-log,
+  .p-results {
+    grid-column: span 12;
+  }
+}
+
+/* ============================================================
+   PANEL — gold-leaf bordered navy card (base surface)
+   ============================================================ */
+.panel {
+  position: relative;
+  background: linear-gradient(165deg, var(--navy-2), var(--navy-1) 60%, #0c1638);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--gold-3);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 2px 0 rgba(255, 255, 255, 0.08),
+    0 14px 30px rgba(0, 0, 0, 0.4);
+  padding: 20px 22px 22px;
+}
+.panel::before {
+  /* thin inner gold hairline to fake a double-ring bevel */
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: calc(var(--radius-lg) - 6px);
+  border: 1px solid rgba(255, 216, 115, 0.18);
+  pointer-events: none;
+}
+
+.phead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.phead h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--gold-hi);
+  letter-spacing: 0.01em;
+}
+.phint {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* circular medal icon used in panel headers */
+.picon {
+  --medal-a: #ffd873;
+  --medal-b: #c9862a;
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 32% 28%, var(--medal-a), var(--medal-b) 75%);
+  border: 2px solid var(--gold-4);
+  box-shadow:
+    inset 0 -3px 4px rgba(0, 0, 0, 0.25),
+    inset 0 2px 2px rgba(255, 255, 255, 0.5),
+    0 3px 6px rgba(0, 0, 0, 0.35);
+}
+.picon::after {
+  /* dark contrast disc so a light icon glyph reads clearly against the
+     bright gold medal instead of washing out */
+  content: '';
+  position: absolute;
+  inset: 21%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(12, 20, 48, 0.62), rgba(6, 11, 28, 0.82));
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.picon svg {
+  width: 17px;
+  height: 17px;
+  fill: var(--ink);
+  stroke: var(--ink);
+}
+
+.panel-icon,
+.dock-icon,
+.control-icon,
+.fab-icon,
+.metric-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+}
+
+.control-icon,
+.fab-icon {
+  color: var(--gold-hi);
+}
+
+.control-icon path,
+.fab-icon path {
+  fill: currentColor;
+}
+
+.metric-icon {
+  width: 21px;
+  height: 21px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
+}
+
+.panel-icon {
+  width: 21px;
+  height: 21px;
+}
+
+.dock-icon {
+  width: 27px;
+  height: 27px;
+}
+
+.control-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.fab-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* ============================================================
+   PROCESS TABLE
+   ============================================================ */
+.table-wrap {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: min(46vh, 360px);
+  margin-top: 6px;
+  padding-right: 4px;
+}
+table.ptable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table.ptable th {
+  font-family: var(--font-body);
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 700;
+  padding: 0 4px 8px;
+  text-transform: uppercase;
+}
+table.ptable td {
+  padding: 4px;
+  text-align: center;
+}
+table.ptable input {
+  width: 100%;
+  background: var(--navy-0);
+  border: 1.5px solid var(--gold-4);
+  border-radius: var(--radius-sm);
+  color: var(--gold-hi);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 7px 4px;
+  text-align: center;
+}
+table.ptable input:focus {
+  outline: 2px solid var(--gold-1);
+  border-color: var(--gold-1);
+}
+.pid-chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--ink);
+  background: linear-gradient(160deg, var(--gold-1), var(--gold-3));
+  border: 1px solid var(--gold-4);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+.row-remove {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+}
+.row-remove:hover {
+  color: var(--coral-1);
+}
+
+.btn-dashed {
+  margin-top: 12px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 216, 115, 0.06);
+  border: 2px dashed var(--gold-3);
+  border-radius: var(--radius-md);
+  color: var(--gold-hi);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 10px;
+  cursor: pointer;
+}
+.btn-dashed:hover {
+  background: rgba(255, 216, 115, 0.14);
+}
+
+.pq-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.randomize-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+.randomize-row label {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 4px;
+}
+.randomize-row input[type='number'] {
+  width: 56px;
+  background: var(--navy-0);
+  border: 1.5px solid var(--gold-4);
+  border-radius: var(--radius-sm);
+  color: var(--gold-hi);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  text-align: center;
+}
+.btn-randomize {
+  margin-top: 0;
+  flex: 1;
+  border-style: solid;
+  background: rgba(126, 199, 255, 0.1);
+  border-color: #7ec7ff;
+  color: #cfeaff;
+}
+.btn-randomize:hover {
+  background: rgba(126, 199, 255, 0.2);
+}
+
+/* ============================================================
+   QUEUE MONITOR — Ready / Running / Completed live columns
+   ============================================================ */
+.monitor-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+@media (max-width: 700px) {
+  .monitor-cols {
+    grid-template-columns: 1fr;
+  }
+}
+.monitor-col {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px solid var(--gold-4);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  min-height: 96px;
+}
+.monitor-col-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.monitor-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-ready {
+  background: #ffd873;
+  box-shadow: 0 0 6px rgba(255, 216, 115, 0.7);
+}
+.dot-running {
+  background: #7ec7ff;
+  box-shadow: 0 0 6px rgba(126, 199, 255, 0.8);
+}
+.dot-running.pulse {
+  animation: monitorPulse 1s ease-in-out infinite;
+}
+@keyframes monitorPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.dot-completed {
+  background: #9ee7c9;
+  box-shadow: 0 0 6px rgba(158, 231, 201, 0.7);
+}
+.monitor-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.monitor-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--ink);
+  background: linear-gradient(160deg, var(--gold-1), var(--gold-3));
+  border: 1px solid var(--gold-4);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.monitor-chip.running {
+  background: linear-gradient(160deg, #a7dcff, #2a7fc9);
+  color: #04182b;
+}
+.monitor-chip.completed {
+  background: linear-gradient(160deg, #b9f0d3, #2fa26b);
+  color: #04241a;
+  opacity: 0.85;
+}
+.monitor-chip .chip-sub {
+  font-weight: 600;
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+/* ============================================================
+   ALGORITHM PILLS (mirrors the "WISHES" pill button style)
+   ============================================================ */
+.group-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 10px 0 8px;
+}
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.pill {
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: linear-gradient(160deg, var(--navy-3), var(--navy-1));
+  border: 2px solid var(--gold-3);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  color: var(--gold-hi);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-display);
+}
+.pill:hover {
+  border-color: var(--gold-1);
+}
+.pill.active {
+  background: linear-gradient(160deg, var(--gold-1), var(--gold-3));
+  border-color: var(--gold-4);
+  color: var(--ink);
+  box-shadow:
+    inset 0 2px 2px rgba(255, 255, 255, 0.5),
+    inset 0 -3px 4px rgba(0, 0, 0, 0.2),
+    0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.quantum-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+.quantum-row label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.quantum-row input {
+  width: 74px;
+  background: var(--navy-0);
+  border: 1.5px solid var(--gold-4);
+  border-radius: var(--radius-sm);
+  color: var(--gold-hi);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 7px 8px;
+  text-align: center;
+}
+.hidden {
+  display: none !important;
+}
+
+/* ============================================================
+   LEFT ICON DOCK — clickable Process Queue / Algorithm launchers
+   ============================================================ */
+.icon-dock {
+  position: fixed;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 14px 8px;
+  background: linear-gradient(165deg, var(--navy-2), var(--navy-1) 60%, #0c1638);
+  border: 2px solid var(--gold-3);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 14px 30px rgba(0, 0, 0, 0.4);
+}
+.dock-btn {
+  --medal-a: #ffd873;
+  --medal-b: #c9862a;
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 32% 28%, var(--medal-a), var(--medal-b) 78%);
+  border: 2px solid var(--gold-4);
+  box-shadow:
+    inset 0 -3px 5px rgba(0, 0, 0, 0.25),
+    inset 0 2px 3px rgba(255, 255, 255, 0.6),
+    0 4px 10px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.dock-btn::after {
+  /* dark contrast disc so a light icon glyph reads clearly against the
+     bright gold/blue medal instead of washing out */
+  content: '';
+  position: absolute;
+  inset: 24%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(12, 20, 48, 0.55), rgba(6, 11, 28, 0.78));
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.dock-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--ink);
+  stroke: var(--ink);
+  position: relative;
+  z-index: 1;
+}
+.dock-btn:hover {
+  transform: scale(1.08);
+}
+.dock-btn:active {
+  transform: scale(0.95);
+}
+.dock-btn.active {
+  box-shadow:
+    inset 0 -3px 5px rgba(0, 0, 0, 0.25),
+    inset 0 2px 3px rgba(255, 255, 255, 0.6),
+    0 0 0 3px var(--gold-1);
+}
+.dock-label {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background: linear-gradient(160deg, #3a2410, #1c1206);
+  border: 2px solid var(--gold-3);
+  color: var(--gold-hi);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    left 0.15s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+}
+.dock-btn:hover .dock-label {
+  opacity: 1;
+  left: calc(100% + 16px);
+}
+
+/* ============================================================
+   DRAWER — slide-out panel for Process Queue / Algorithm
+   ============================================================ */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  background: rgba(6, 10, 28, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.drawer-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 70;
+  width: min(430px, 92vw);
+  max-height: min(88vh, 860px);
+  border-radius: var(--radius-lg);
+  overflow-y: auto;
+  padding: 34px 22px 22px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.96);
+  transition:
+    opacity 0.24s ease,
+    transform 0.28s cubic-bezier(0.32, 0.9, 0.4, 1);
+  border: 2px solid rgba(255, 216, 115, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 18px 38px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+}
+.drawer.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+.drawer-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 216, 115, 0.18);
+  border: 1.5px solid rgba(255, 216, 115, 0.9);
+  color: #fff7d9;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28);
+}
+.drawer-close:hover {
+  background: rgba(255, 216, 115, 0.28);
+  transform: scale(1.04);
+}
+
+.drawer#drawerProcess,
+.drawer#drawerAlgo {
+  background-image:
+    linear-gradient(135deg, rgba(6, 10, 28, 0.78), rgba(6, 10, 28, 0.54)),
+    url('assets/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.drawer#drawerProcess::before,
+.drawer#drawerAlgo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08),
+    transparent 35%,
+    rgba(0, 0, 0, 0.15)
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ============================================================
+   BOTTOM OVERLAY BAR — grid keeps the centered metrics and the
+   right-hand speed/play controls in separate tracks so they can
+   never visually collide, regardless of viewport width.
+   ============================================================ */
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  z-index: 55;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  column-gap: 16px;
+  padding: 0 32px;
+  pointer-events: none;
+}
+.floating-stats {
+  grid-column: 2;
+  justify-self: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+}
+.floating-stats .fstat {
+  pointer-events: auto;
+}
+.run-dock {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: auto;
+}
+.fstat {
+  --medal-a: #fff3cf;
+  --medal-b: #c9862a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 180px;
+  background: linear-gradient(160deg, #fdf2d0, #f2dca3);
+  border: 3px solid var(--gold-4);
+  border-radius: 999px;
+  padding: 6px 20px 6px 6px;
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.7),
+    inset 0 -3px 6px rgba(120, 80, 20, 0.25),
+    0 8px 18px rgba(0, 0, 0, 0.35);
+}
+.fstat-icon {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 32% 28%, var(--medal-a), var(--medal-b) 78%);
+  border: 2px solid var(--gold-4);
+  box-shadow:
+    inset 0 -3px 5px rgba(0, 0, 0, 0.25),
+    inset 0 2px 3px rgba(255, 255, 255, 0.6);
+}
+.fstat-icon::after {
+  content: '';
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(12, 20, 48, 0.6), rgba(6, 11, 28, 0.8));
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.fstat-icon svg {
+  width: 17px;
+  height: 17px;
+  fill: var(--ink);
+  position: relative;
+  z-index: 1;
+}
+.fstat-body {
+  min-width: 0;
+}
+.fstat-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b4a17;
+}
+.fstat-value {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.fstat-value .unit {
+  font-size: 10.5px;
+  color: #6b4a17;
+  margin-left: 2px;
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+/* ============================================================
+   SIMULATION PROGRESS BAR — advances in sync with the Gantt
+   playback so both always reflect the same point in sim-time
+   ============================================================ */
+.sim-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 2px 0 14px;
+}
+.sim-progress-track {
+  position: relative;
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(10, 18, 48, 0.55);
+  border: 1.5px solid var(--gold-4);
+  overflow: visible;
+}
+.sim-progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-3), var(--gold-1));
+  box-shadow: 0 0 8px rgba(255, 216, 115, 0.55);
+}
+.sim-progress-marker {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: radial-gradient(circle at 32% 26%, var(--gold-1), var(--gold-3) 75%);
+  border: 2px solid var(--gold-hi);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.sim-progress-time {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+  min-width: 92px;
+  text-align: right;
+}
+
+/* ============================================================
+   GANTT CHART — segments show PID + duration, plus a legend
+   ============================================================ */
+.gantt-scroll {
+  overflow-x: auto;
+  padding-bottom: 26px;
+}
+.gantt-track {
+  position: relative;
+  display: flex;
+  min-width: 100%;
+  height: 76px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid var(--gold-4);
+}
+.timeline-axis {
+  position: relative;
+  width: 100%;
+  min-height: 32px;
+  margin-top: 8px;
+  pointer-events: none;
+}
+.timeline-label {
+  position: absolute;
+  top: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  color: #d4af37;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.timeline-label:first-child {
+  left: 0;
+  transform: none;
+}
+.timeline-label::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 2px;
+  height: 12px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #d4af37, rgba(212, 175, 55, 0.25));
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+.timeline-label:first-child::before {
+  left: 0;
+  transform: none;
+}
+.gseg {
+  position: relative;
+  flex-shrink: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  border-right: 2px solid rgba(10, 18, 48, 0.55);
+  clip-path: inset(0 100% 0 0);
+}
+.gseg .gseg-pid {
+  font-family: var(--font-display);
+  font-size: 13px;
+}
+.gseg .gseg-dur {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: rgba(10, 18, 48, 0.22);
+  padding: 1px 7px;
+  border-radius: 999px;
+}
+.gseg.idle {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.07),
+    rgba(255, 255, 255, 0.07) 6px,
+    rgba(255, 255, 255, 0.02) 6px,
+    rgba(255, 255, 255, 0.02) 12px
+  );
+  color: var(--muted);
+}
+.gseg.idle .gseg-dur {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+}
+.gtick {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.gantt-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 8px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  border: 1.5px solid var(--gold-4);
+}
+.empty-note {
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   EXECUTION LOG
+   ============================================================ */
+.log-box {
+  height: 210px;
+  overflow-y: auto;
+  background: var(--navy-0);
+  border: 1.5px solid var(--gold-4);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.log-box div {
+  border-bottom: 1px dashed rgba(255, 216, 115, 0.1);
+  padding: 3px 0;
+}
+.log-box div span {
+  color: var(--gold-1);
+  margin-right: 6px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   RESULTS TABLE
+   ============================================================ */
+table.rtable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+table.rtable th {
+  text-align: center;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 8px;
+  font-weight: 700;
+}
+table.rtable td {
+  text-align: center;
+  padding: 8px 4px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text);
+  border-top: 1px solid rgba(255, 216, 115, 0.12);
+}
+.results-scroll {
+  overflow-x: auto;
+}
+
+/* ============================================================
+   RUN DOCK — speed control + play FAB (right track of bottom-bar)
+   ============================================================ */
+.speed-control {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  background: linear-gradient(160deg, #16224a, #0c1530);
+  border: 3px solid var(--gold-4);
+  border-radius: 22px;
+  padding: 5px;
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.08),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+    0 8px 18px rgba(0, 0, 0, 0.35);
+}
+.speed-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 10px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+.speed-btn .control-icon {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.speed-btn:hover {
+  color: var(--gold-hi);
+}
+.speed-btn.active {
+  background: radial-gradient(circle at 32% 26%, var(--gold-1), var(--gold-3) 75%);
+  color: var(--ink);
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.6),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.25);
+}
+.speed-btn.active:hover {
+  color: var(--ink);
+}
+
+.fab {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, var(--gold-1), var(--gold-3) 75%);
+  border: 3px solid var(--gold-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow:
+    inset 0 3px 4px rgba(255, 255, 255, 0.6),
+    inset 0 -4px 6px rgba(0, 0, 0, 0.25),
+    0 12px 26px rgba(0, 0, 0, 0.5);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+.fab svg {
+  width: 26px;
+  height: 26px;
+  fill: var(--ink);
+  margin-left: 3px;
+}
+.fab:hover {
+  transform: scale(1.06);
+}
+.fab:active {
+  transform: scale(0.94);
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+  position: fixed;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%) translateY(-14px);
+  background: linear-gradient(160deg, #3a2410, #1c1206);
+  border: 2px solid var(--gold-3);
+  color: var(--gold-hi);
+  padding: 11px 20px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 80;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   RESPONSIVE — icon dock / drawer / floating stats on small screens
+   ============================================================ */
+@media (max-width: 640px) {
+  body {
+    padding-left: 5vw;
+    padding-top: 78px;
+    padding-bottom: 210px;
+  }
+
+  /* dock becomes a horizontal bar pinned to the top so it never
+     competes with the bottom-left stats or the play FAB */
+  .icon-dock {
+    left: 50%;
+    top: 14px;
+    bottom: auto;
+    transform: translateX(-50%);
+    flex-direction: row;
+    padding: 8px 10px;
+  }
+  .dock-btn {
+    width: 44px;
+    height: 44px;
+  }
+  .dock-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  .dock-label {
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%);
+    bottom: auto;
+  }
+  .dock-btn:hover .dock-label {
+    left: 50%;
+    top: calc(100% + 12px);
+  }
+
+  .drawer {
+    width: min(340px, 92vw);
+  }
+
+  /* bottom-bar stacks: metrics row on top, speed+play row below,
+     both centered -- avoids the grid squeeze at narrow widths */
+  .bottom-bar {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    row-gap: 8px;
+    bottom: 14px;
+    padding: 0 14px;
+  }
+  .floating-stats {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    gap: 6px;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .fstat {
+    padding: 5px 12px 5px 5px;
+    gap: 8px;
+    width: calc(50% - 4px);
+  }
+  .fstat-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .fstat-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+  .fstat-value {
+    font-size: 14px;
+  }
+  .fstat-label {
+    font-size: 8px;
+  }
+
+  .run-dock {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+    gap: 10px;
+  }
+  .speed-btn {
+    padding: 7px 10px;
+    font-size: 10px;
+  }
+  .fab {
+    width: 60px;
+    height: 60px;
+  }
+  .fab svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* clear the top icon-dock bar, which now lives at top:14px */
+  .toast {
+    top: 74px;
+  }
+}
