@@ -1,18 +1,11 @@
-/* ============================================================
-   CPU Scheduler — "Royal Court" Art-Deco Game UI theme
-   Palette + type tokens are pulled directly from the reference
-   UI kit: deep navy stage, gold-leaf borders, candy-colored
-   medal icons, chunky rounded display type.
-   ============================================================ */
-
 :root {
-  /* -- stage -- */
+  /*stage*/
   --navy-0: #0a1230;
   --navy-1: #0e1a44;
   --navy-2: #1b2f6e;
   --navy-3: #26418f;
 
-  /* -- gold leaf -- */
+  /*gold leaf*/
   --gold-hi: #fff3cf;
   --gold-1: #ffd873;
   --gold-2: #f2b93f;
@@ -83,9 +76,7 @@ body {
   border-radius: 10px;
 }
 
-/* ============================================================
-   HEADER — crown emblem + scalloped ribbon banner + clock medal
-   ============================================================ */
+/* HEADER — crown emblem + scalloped ribbon banner + clock medal*/
 .crown {
   display: flex;
   align-items: center;
@@ -170,9 +161,7 @@ body {
   padding: 9px 18px;
 }
 
-/* ============================================================
-   LAYOUT GRID
-   ============================================================ */
+/* LAYOUT GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -200,9 +189,7 @@ body {
   }
 }
 
-/* ============================================================
-   PANEL — gold-leaf bordered navy card (base surface)
-   ============================================================ */
+/* PANEL — gold-leaf bordered navy card (base surface) */
 .panel {
   position: relative;
   background: linear-gradient(165deg, var(--navy-2), var(--navy-1) 60%, #0c1638);
@@ -265,8 +252,6 @@ body {
     0 3px 6px rgba(0, 0, 0, 0.35);
 }
 .picon::after {
-  /* dark contrast disc so a light icon glyph reads clearly against the
-     bright gold medal instead of washing out */
   content: '';
   position: absolute;
   inset: 21%;
@@ -331,9 +316,7 @@ body {
   height: 24px;
 }
 
-/* ============================================================
-   PROCESS TABLE
-   ============================================================ */
+/* PROCESS TABLE*/
 .table-wrap {
   overflow-x: auto;
   overflow-y: auto;
@@ -463,9 +446,7 @@ table.ptable input:focus {
   background: rgba(126, 199, 255, 0.2);
 }
 
-/* ============================================================
-   QUEUE MONITOR — Ready / Running / Completed live columns
-   ============================================================ */
+/* QUEUE MONITOR — Ready / Running / Completed live columns */
 .monitor-cols {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -558,9 +539,7 @@ table.ptable input:focus {
   opacity: 0.75;
 }
 
-/* ============================================================
-   ALGORITHM PILLS (mirrors the "WISHES" pill button style)
-   ============================================================ */
+/* ALGORITHM PILLS (mirrors the "WISHES" pill button style)*/
 .group-label {
   font-family: var(--font-body);
   font-size: 10px;
@@ -626,9 +605,7 @@ table.ptable input:focus {
   display: none !important;
 }
 
-/* ============================================================
-   LEFT ICON DOCK — clickable Process Queue / Algorithm launchers
-   ============================================================ */
+/* clickable Process Queue / Algorithm launchers */
 .icon-dock {
   position: fixed;
   left: 18px;
@@ -669,8 +646,7 @@ table.ptable input:focus {
     box-shadow 0.15s ease;
 }
 .dock-btn::after {
-  /* dark contrast disc so a light icon glyph reads clearly against the
-     bright gold/blue medal instead of washing out */
+  /*  bright gold/blue medal */
   content: '';
   position: absolute;
   inset: 24%;
@@ -724,9 +700,7 @@ table.ptable input:focus {
   left: calc(100% + 16px);
 }
 
-/* ============================================================
-   DRAWER — slide-out panel for Process Queue / Algorithm
-   ============================================================ */
+/* slide-out panel for Process Queue / Algorithm*/
 .drawer-overlay {
   position: fixed;
   inset: 0;
@@ -814,11 +788,7 @@ table.ptable input:focus {
   border-radius: inherit;
 }
 
-/* ============================================================
-   BOTTOM OVERLAY BAR — grid keeps the centered metrics and the
-   right-hand speed/play controls in separate tracks so they can
-   never visually collide, regardless of viewport width.
-   ============================================================ */
+/* BOTTOM OVERLAY BAR  */
 .bottom-bar {
   position: fixed;
   left: 0;
@@ -925,10 +895,7 @@ table.ptable input:focus {
   font-weight: 700;
 }
 
-/* ============================================================
-   SIMULATION PROGRESS BAR — advances in sync with the Gantt
-   playback so both always reflect the same point in sim-time
-   ============================================================ */
+/* SIMULATION PROGRESS BAR */
 .sim-progress {
   display: flex;
   align-items: center;
@@ -976,9 +943,7 @@ table.ptable input:focus {
   text-align: right;
 }
 
-/* ============================================================
-   GANTT CHART — segments show PID + duration, plus a legend
-   ============================================================ */
+/* GANTT CHART  */
 .gantt-scroll {
   overflow-x: auto;
   padding-bottom: 26px;
@@ -1105,9 +1070,7 @@ table.ptable input:focus {
   font-weight: 600;
 }
 
-/* ============================================================
-   EXECUTION LOG
-   ============================================================ */
+/*XECUTION LOG */
 .log-box {
   height: 210px;
   overflow-y: auto;
@@ -1130,9 +1093,7 @@ table.ptable input:focus {
   font-weight: 700;
 }
 
-/* ============================================================
-   RESULTS TABLE
-   ============================================================ */
+/* RESULTS TABLE */
 table.rtable {
   width: 100%;
   border-collapse: collapse;
@@ -1159,9 +1120,7 @@ table.rtable td {
   overflow-x: auto;
 }
 
-/* ============================================================
-   RUN DOCK — speed control + play FAB (right track of bottom-bar)
-   ============================================================ */
+/*  speed control + play FAB */
 .speed-control {
   display: flex;
   flex-direction: column;
@@ -1241,9 +1200,7 @@ table.rtable td {
   transform: scale(0.94);
 }
 
-/* ============================================================
-   TOAST
-   ============================================================ */
+/* TOAST */
 .toast {
   position: fixed;
   left: 50%;
@@ -1269,9 +1226,7 @@ table.rtable td {
   transform: translateX(-50%) translateY(0);
 }
 
-/* ============================================================
-   RESPONSIVE — icon dock / drawer / floating stats on small screens
-   ============================================================ */
+/* icon dock / drawer / floating stats on small screens */
 @media (max-width: 640px) {
   body {
     padding-left: 5vw;
@@ -1279,8 +1234,6 @@ table.rtable td {
     padding-bottom: 210px;
   }
 
-  /* dock becomes a horizontal bar pinned to the top so it never
-     competes with the bottom-left stats or the play FAB */
   .icon-dock {
     left: 50%;
     top: 14px;
@@ -1312,8 +1265,7 @@ table.rtable td {
     width: min(340px, 92vw);
   }
 
-  /* bottom-bar stacks: metrics row on top, speed+play row below,
-     both centered -- avoids the grid squeeze at narrow widths */
+  /* metrics */
   .bottom-bar {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
@@ -1369,7 +1321,6 @@ table.rtable td {
     height: 22px;
   }
 
-  /* clear the top icon-dock bar, which now lives at top:14px */
   .toast {
     top: 74px;
   }

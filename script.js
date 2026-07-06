@@ -1,9 +1,3 @@
-/* ============================================================
-   CPU Scheduler — front-end UI logic
-   Talks to the Python backend (server.py -> scheduler.py) via
-   POST /api/simulate. Run with:  python3 server.py
-   ============================================================ */
-
 const ALGORITHMS = [
   { key: 'fcfs', label: 'FCFS', category: 'NPP' },
   { key: 'sjf', label: 'SJF', category: 'NPP' },
@@ -34,16 +28,12 @@ let state = {
   speed: 'fast',
 };
 
-// Maps 1 unit of simulation time to real playback time, so the Gantt
-// reveal and the progress bar are always driven off the exact same
-// clock. min/max keep very short or very long timelines watchable.
+// simulation
 const SPEED_SETTINGS = {
   slow: { msPerUnit: 220, min: 1200, max: 9000 },
   fast: { msPerUnit: 70, min: 500, max: 4000 },
 };
 
-// Holds the single active playback loop so a new Run (or a resize)
-// never leaves a stale rAF fighting with a fresh one.
 const playback = {
   rafId: null,
   segments: null,
@@ -53,9 +43,7 @@ const playback = {
   table: null,
 };
 
-// Keeps PIDs sequential (P1, P2, P3, ...) no matter what was added or
-// removed, so what's on screen always matches what gets sent to the
-// scheduler -- no gaps like P1, P3, P4 after deleting P2.
+// scheduler
 function renumberProcesses() {
   state.processes.forEach((p, i) => {
     p.pid = `P${i + 1}`;
@@ -106,10 +94,7 @@ function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Wipes the current process list and rebuilds it from scratch with a
-// random total count, random arrival times, random burst durations, and
-// random priorities -- handy for quickly stress-testing an algorithm
-// without hand-typing rows.
+//process list
 function randomizeProcesses() {
   const countInput = document.getElementById('randomCountInput');
   let count = parseInt(countInput?.value, 10) || 4;
@@ -205,11 +190,6 @@ function setSimProgress(fraction, simTime, span) {
   document.getElementById('simProgressTime').textContent = `t = ${Math.round(simTime)} / ${span}ms`;
 }
 
-// Reveals each Gantt segment left-to-right using a CSS clip-path whose
-// inset is derived straight from the shared playback clock, so a
-// segment is exactly as "drawn in" as the progress bar says the
-// simulation has progressed past its start time -- the two widgets
-// can never drift apart because they read the same `simTime`.
 function paintGanttAtTime(simTime) {
   playback.elements.forEach(({ el, start, end }) => {
     if (simTime <= start) {
@@ -259,11 +239,6 @@ function renderLogAtTime(simTime, events) {
   box.scrollTop = 0;
 }
 
-// Derives Ready / Running / Completed sets purely from the already-computed
-// schedule (table has each pid's arrival + final completion time; segments
-// tell us who's on the CPU at a given instant) and the shared playback
-// clock `simTime`, so this view can never drift out of sync with the
-// Gantt chart or the progress bar -- they all read the same time source.
 function renderQueueMonitor(simTime, segments = [], table = []) {
   const readyBox = document.getElementById('monitorReady');
   const runningBox = document.getElementById('monitorRunning');
@@ -532,9 +507,7 @@ document.getElementById('addProcessBtn').addEventListener('click', addProcess);
 document.getElementById('randomizeBtn').addEventListener('click', randomizeProcesses);
 document.getElementById('runBtn').addEventListener('click', runSimulation);
 
-/* ============================================================
-   SPEED CONTROL — Slow / Fast toggle for the Gantt playback
-   ============================================================ */
+//SPEED CONTROL — Slow / Fast toggle for the Gantt playback
 const speedButtons = [
   document.getElementById('speedSlowBtn'),
   document.getElementById('speedFastBtn'),
@@ -546,9 +519,7 @@ speedButtons.forEach((btn) => {
   });
 });
 
-/* ============================================================
-   ICON DOCK DRAWERS — Process Queue / Algorithm
-   ============================================================ */
+//ICON DOCK DRAWERS — Process Queue / Algorithm
 const overlay = document.getElementById('drawerOverlay');
 const dockButtons = [
   {

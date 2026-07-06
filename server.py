@@ -1,11 +1,3 @@
-"""
-server.py
----------
-Serves index.html, style.css, script.js and exposes POST /api/simulate.
-Run with:  python3 server.py
-Then open: http://localhost:8000/
-"""
-
 import json
 import mimetypes
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -17,14 +9,13 @@ from scheduler import ALGORITHMS
 ROOT = Path(__file__).resolve().parent
 PORT = 8000
 
-# Static files the front end is allowed to fetch directly.
+# Static files
 STATIC_FILES = {
     "/": "index.html",
     "/index.html": "index.html",
     "/style.css": "style.css",
     "/script.js": "script.js",
 }
-
 
 def normalize_processes(raw):
     processes = []
@@ -43,7 +34,6 @@ def normalize_processes(raw):
     if not processes:
         raise ValueError("Add at least one process first.")
     return processes
-
 
 class Handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):

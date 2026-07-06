@@ -58,8 +58,7 @@ def _idle(segments, events, clock, until):
         return until
     return clock
 
-
-# --------------------------------------------------------- non-preemptive --
+#  non-preemptive
 def fcfs(processes, **_):
     procs = sorted(processes, key=lambda p: (p["arrival"], _pid_num(p["pid"])))
     clock, segments, events = 0, [], []
@@ -70,7 +69,6 @@ def fcfs(processes, **_):
         events.append(f"t={clock}  dispatch {p['pid']} (burst={p['burst']}) -> runs to t={end}")
         clock = end
     return _report(processes, segments, events)
-
 
 def _non_preemptive_by_key(processes, key_fn, describe):
     remaining, clock, segments, events = list(processes), 0, [], []
@@ -87,7 +85,6 @@ def _non_preemptive_by_key(processes, key_fn, describe):
         remaining.remove(chosen)
     return _report(processes, segments, events)
 
-
 def sjf_non_preemptive(processes, **_):
     return _non_preemptive_by_key(
         processes, key_fn=lambda p: p["burst"],
@@ -96,7 +93,6 @@ def sjf_non_preemptive(processes, **_):
             f"{[r['pid'] for r in ready]} -> dispatch, runs to t={e}"
         ),
     )
-
 
 def priority_non_preemptive(processes, **_):
     return _non_preemptive_by_key(
@@ -107,8 +103,7 @@ def priority_non_preemptive(processes, **_):
         ),
     )
 
-
-# ------------------------------------------------------------- preemptive --
+#  preemptive
 def _preemptive_simulate(processes, key_fn):
     """1ms-tick simulation with preemption; ties broken by arrival then pid."""
     remaining = {p["pid"]: p["burst"] for p in processes}
@@ -144,10 +139,8 @@ def _preemptive_simulate(processes, key_fn):
 def srtf(processes, **_):
     return _preemptive_simulate(processes, key_fn=lambda p, rem: rem)
 
-
 def priority_preemptive(processes, **_):
     return _preemptive_simulate(processes, key_fn=lambda p, rem: p["priority"])
-
 
 def round_robin(processes, quantum, **_):
     if not quantum or quantum <= 0:
@@ -188,7 +181,6 @@ def round_robin(processes, quantum, **_):
             events.append(f"t={end - run_time}  dispatch {current['pid']} for {run_time}ms -> t={end}, completed")
 
     return _report(processes, segments, events)
-
 
 ALGORITHMS = {
     "fcfs": {"label": "FCFS", "category": "NPP", "fn": fcfs},
