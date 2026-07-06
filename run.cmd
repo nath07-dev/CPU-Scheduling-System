@@ -6,3 +6,8 @@ if %ERRORLEVEL% EQU 0 (
 ) else (
   python server.py
 )
+
+renderProcessRows();
+renderPills();
+tickClock();
+setInterval(tickClock, 1000);
